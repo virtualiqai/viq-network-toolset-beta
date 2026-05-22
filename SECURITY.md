@@ -1,6 +1,8 @@
 # Security & Privacy — Beta Channel
 
-This document describes the security posture, privacy behavior, and data handling of the **Beta channel** builds of the Virtual IQ AI NetOps Toolset. The behavior described here applies identically to the [stable channel](https://github.com/virtualiqai/viq-releases) — beta and stable builds are produced from the same source tree by the same CI pipeline and ship with the same encryption, redaction, and rate-limit guarantees. The only difference is maturity: beta builds may contain unfinished features or behavior changes that are still being validated.
+This document describes the security posture, privacy behavior, and data handling of Virtual IQ AI NetOps Toolset. We aim to be transparent about every outbound connection the software makes and every file it writes to disk.
+
+The behavior described here applies identically to the [stable channel](https://github.com/virtualiqai/viq-releases) — beta and stable builds are produced from the same source tree by the same CI pipeline and ship with the same encryption, redaction, and rate-limit guarantees. The only difference is maturity.
 
 ---
 
@@ -8,10 +10,10 @@ This document describes the security posture, privacy behavior, and data handlin
 
 Beta builds carry an additional class of risk that does not apply to stable builds:
 
-- **Functional regressions may be present.** A feature that worked in the previous stable release may not work in the current beta. Always have a known-good stable build available for fallback.
+- **Functional regressions may be present.** A feature that worked in the previous stable release may not work in the current beta. Keep a known-good stable build available for fallback.
 - **Behavior may change between beta iterations.** A `v2.6.20-beta.1` and a `v2.6.20-beta.3` are not API-compatible — keyboard shortcuts, UI layout, log formats, and configuration file shapes may shift while we iterate.
 - **Beta builds are not intended for production-adjacent use.** Use them on the same workstations and against the same devices as stable builds, but expect to roll back if needed.
-- **Beta-specific diagnostics may be enabled.** Some beta builds raise log verbosity, add tracebacks, or expose internal state through `/api/health` that the stable channel does not. Treat the beta `netops.log` as a debugging artifact; do not retain or share it without redacting any device identifiers it captured.
+- **Beta-specific diagnostics may be enabled.** Some beta builds raise log verbosity, add tracebacks, or expose internal state through `/api/health` that the stable channel does not. Treat the beta `netops.log` as a debugging artifact; do not retain or share it without redacting any device identifiers it may have captured.
 
 The security guarantees listed in the rest of this document — credential redaction, AES-256-GCM source encryption, loopback-only listener, read-only-by-default operations against target devices, no telemetry — apply equally to beta and stable.
 
@@ -55,10 +57,10 @@ A future release will include:
 - Authenticode-signed Windows installer
 - Fully notarized macOS application (Apple Developer ID + notarization stapled to the DMG)
 
-Until then, please verify you are downloading directly from the official GitHub release page:
+Until then, please verify you are downloading directly from the official GitHub beta release page:
 
 ```
-https://github.com/virtualiqai/viq-releases/releases
+https://github.com/virtualiqai/viq-releases-beta/releases
 ```
 
 ---
@@ -77,7 +79,7 @@ The application performs **no telemetry, no analytics, no crash reporting, and n
 
 | When | Destination | Purpose | Data Sent |
 |------|-------------|---------|-----------|
-| Application startup | `raw.githubusercontent.com/virtualiqai/viq-releases/main/version.json` (HTTPS) | Check whether a newer release is available | None — only the HTTP request itself. No system information, IP address, machine identifier, or user identifier is transmitted in the request body. Standard HTTP headers are sent by the underlying OS/HTTP library. |
+| Application startup | `raw.githubusercontent.com/virtualiqai/viq-releases/main/version.json` (stable channel) **OR** `raw.githubusercontent.com/virtualiqai/viq-releases-beta/main/version.json` (beta channel), depending on the channel selected on the About page (HTTPS) | Check whether a newer release is available on the active channel | None — only the HTTP request itself. No system information, IP address, machine identifier, or user identifier is transmitted in the request body. Standard HTTP headers are sent by the underlying OS/HTTP library. |
 
 The version check happens once at startup with a 5-second timeout. If the request fails, the application continues normally.
 
@@ -215,7 +217,7 @@ If you discover a security vulnerability, please report it privately. **Do not o
 
 **Preferred channels:**
 - **Email:** security@virtualiqai.com (use the subject line `[SECURITY]`)
-- **GitHub:** Open a [private security advisory](https://github.com/virtualiqai/viq-releases/security/advisories/new)
+- **GitHub:** Open a private security advisory on [the beta repo](https://github.com/virtualiqai/viq-releases-beta/security/advisories/new) or [the stable repo](https://github.com/virtualiqai/viq-releases/security/advisories/new) — whichever channel the issue applies to
 
 **Please include:**
 1. A description of the vulnerability
