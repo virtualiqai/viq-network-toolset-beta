@@ -1,0 +1,9 @@
+{
+  "channel": "beta",
+  "version": null,
+  "notes": "No beta builds published yet. Use the stable channel at https://github.com/virtualiqai/viq-releases for the current production release.",
+  "downloads": {
+    "macos": null,
+    "windows": null
+  }
+}
