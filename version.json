@@ -1,9 +1,9 @@
 {
   "channel": "beta",
-  "version": null,
-  "notes": "No beta builds published yet. Use the stable channel at https://github.com/virtualiqai/viq-releases for the current production release.",
+  "version": "2.6.21-beta.2",
+  "notes": "See release notes on GitHub",
   "downloads": {
-    "macos": null,
-    "windows": null
+    "macos": "https://github.com/virtualiqai/viq-releases-beta/releases/download/v2.6.21-beta.2/VIQ-Engineer-Toolset.dmg",
+    "windows": "https://github.com/virtualiqai/viq-releases-beta/releases/download/v2.6.21-beta.2/VIQ-Engineer-Toolset-Setup.exe"
   }
 }
