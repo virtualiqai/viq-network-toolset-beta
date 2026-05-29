@@ -8,7 +8,73 @@ The stable-channel history below is mirrored here so testers have full context a
 
 ---
 
-*No beta builds shipped yet — the first `vX.Y.Z-beta.N` entry will appear here when the first beta is published.*
+## [2.6.22-beta.1] — 2026-05-29
+
+### 🛰️ SNMP Port Mapper — L3 enrichment hardened across every Cisco platform pair
+
+The Port Mapper now produces a usable port → MAC → IP → hostname result on every realistic combination of Cisco IOS Catalyst and NX-OS as the L2 access and L3 gateway pair. Previous betas left whole classes of switches with an empty MAC tab and zero L3 matches; this build addresses every code path that was producing those empty results.
+
+- **Nexus VLAN discovery now unions three sources** (SVI interface names ∪ `vmVlan` per-port access VLAN ∪ `vtpVlanState`). The pre-fix logic walked only SVI names, so a pure-L2 access Nexus without any SVIs returned an empty VLAN list and Strategy E (community-context FDB polling) was silently skipped. The MAC table came back empty on those switches even though the device was fully reachable.
+- **Layer 3 ARP correlation** continues to walk the legacy `ipNetToMediaTable`, with automatic fallback to RFC 4293 `ipNetToPhysicalTable` on devices that only expose the newer table. The MAC normalization between the L2 FDB and the L3 ARP table is now uniform across both sources, so case and format differences can never cause a false-negative match.
+- **Structured `snmp:` log lines** are emitted across the full scan path (entry parameters, L2 device platform, FDB strategy selected, L3 device probe + `sysDescr`, ARP walk row counts, RFC 4293 fallback if used, ARP/MAC correlation result, and a sample mismatch warning when zero MACs overlap). The log file at `~/Library/Application Support/VIQ Engineer Toolset/netops.log` (macOS) or `%LOCALAPPDATA%\VIQ Engineer Toolset\netops.log` (Windows) now contains enough evidence to diagnose any unsuccessful scan without rerunning it.
+- **Uplink ports no longer report dozens of "endpoints."** A switch's FDB legitimately learns the *chassis MAC of the upstream device* on its uplink port; when the L3 ARP table maps that MAC to forty SVI / management IPs (perfectly normal for a distribution switch terminating many subnets), the previous build attached all forty IPs to the uplink row, suggesting the uplink had forty hosts behind it. The per-MAC `ip_addresses` list is still populated (so the MAC tab continues to show the correlated identities) but the per-port aggregation and the `endpoints` array now skip ports whose role is `uplink`. The frontend Port Inventory export honors the same rule.
+
+### 🩺 Diagnostic panel — every scan now tells you what worked and what to fix
+
+Scan responses include a structured `diagnostics` array that the UI renders as colour-coded cards (error / warning / info) next to the port-mapper summary. Each card includes a title, a one-paragraph explanation, and a bulleted list of suggested checks. The categories cover:
+
+- **Layer 3 device unreachable** (sysDescr empty): suggested `snmpwalk` invocation, community confirmation, version mismatch, SNMP ACL on the device, UDP/161 filter.
+- **Layer 3 reachable but ARP table empty**: VRF context guidance (NX-OS ARP is per-VRF), SNMP view exclusion of the IP-MIB subtree, and the "did you point at a device that hosts SVIs for these VLANs?" check.
+- **ARP collected but zero overlap with the switch FDB**: gateway-ownership check, ping-sweep to warm the ARP cache, and a side-by-side sample of MACs from each side so OUI mismatches become obvious at a glance.
+- **L2 FDB empty on NX-OS**: VLAN discovery breakdown, community-context verification, BRIDGE-MIB view check, and an L3-fallback suggestion.
+- **L2 FDB empty on Catalyst / non-Nexus**: BRIDGE-MIB exposure probe and per-VLAN community-suffix guidance.
+- **Disabled / successful states** are also captured as `info` cards so the panel always describes the outcome.
+
+The cards never echo the community string or any other secret in plaintext (see the security section below).
+
+### 🧮 Subnet Calculator — parent block enumeration is finally anchored to your input
+
+The "All Possible Subnets In Parent Block" section used to enumerate `/N` blocks starting at the classful parent of the first octet, so an input of `10.93.139.224/26` produced 64 rows starting at `10.0.0.0/26`, `10.0.0.64/26`, … unrelated to the user's actual address space. The redesigned tool exposes a new **Parent Prefix** input next to the existing CIDR field:
+
+- **Auto** (default) picks `input_prefix − 6` and produces 64 sibling blocks centered on a real supernet of the input. For `/26` input that becomes a `/20` parent containing 64 `/26` rows; the input's own subnet is highlighted in the table and in the exported PDF.
+- Explicit prefixes from `/8` through `/26` are available for users who already know their allocation boundary (e.g., picking `/24` for the example above produces exactly the four `/26` blocks within `10.93.139.0/24`).
+- The parent network is computed by masking the **input IP** with the parent prefix, so the enumeration always contains the user's own subnet. Row count is capped at 256 with a "truncated" indicator if a very broad parent is picked. The PDF export's section heading shows the resolved parent label (e.g., "All /26 Subnets Inside Parent 10.93.128.0/20 (64)").
+
+### 🪟 SCP / SFTP — folder picker now works on Windows
+
+The "Browse" button next to **Root Directory** on the SCP / SFTP Server tool was previously macOS-only and returned a hard `501` on Windows. It now spawns a native Windows folder selection dialog via PowerShell + `System.Windows.Forms.FolderBrowserDialog` (with `-STA` apartment threading, hidden console, and a topmost owner form so the dialog appears above the app window). The macOS code path (osascript `choose folder`) is unchanged. Cancellation maps to `{cancelled: true}` on both platforms and leaves the Root Directory input untouched.
+
+### 🔒 Security — credential redaction audit
+
+A full audit of every log statement, API response field, persisted activity record, and PDF export confirmed that credentials (SNMP community strings, license activation JWT, SSH passwords, private keys, API tokens) are not exposed in plaintext anywhere a user-controlled file ends up. A small number of leaks were introduced earlier in the `v2.6.22-beta` series and are now eliminated:
+
+- The "L3 device unreachable" log warning was emitting the L3 community string in cleartext. It now goes through a new `_redact_secret()` helper that prints `<redacted:len=N>` — enough to verify a value was provided without disclosing it.
+- The diagnostic cards' suggested `snmpwalk` commands no longer embed the community. The placeholder `<community>` is shown instead, accompanied by a sentence telling the user to re-enter the value if they suspect a typo.
+- `/api/license/activate` body persistence is now disabled outright (added to `_SKIP_BODY_LOG_PREFIXES`). The previous behavior redacted the `key` field via `_redact_body()`, but pre-redaction commits had let cleartext JWTs through; the activation attempt is still captured via the endpoint / status / timestamp.
+- A new `_purge_legacy_unredacted_bodies()` runs on every startup. It nulls out any `request_body` in `activity_log` that still mentions a sensitive key in plaintext (`community`, `password`, `private_key`, `token`, etc.) or that targets `/api/license/`. Existing installs that were used before the redaction commit landed will see their legacy plaintext rows wiped on the next launch.
+
+### 🧪 Per-tool pre-build smoke harness
+
+`tests/smoke_tools.py` is a new pre-build gate that exercises every user-facing tool's `/api` endpoint with a benign payload (or a mocked subprocess for OS-specific dialogs) and reports a one-row pass/fail summary. The full harness covers 32 tools in under three seconds when online (it auto-skips the live-network tools when there's no internet). It runs as part of every local DMG build and every release tag.
+
+### 🚦 CI / build pipeline
+
+`actions/checkout` was bumped from `@v4` to `@v5` and `actions/setup-python` from `@v5` to `@v6` so the release workflow runs on Node.js 24 ahead of GitHub's June 2026 default switch.
+
+---
+
+## [2.6.21-beta.2] — 2026-05-26
+
+### 🌐 Internet Diagnostic — multi-CDN routing + sustained-rate display
+
+- Live download and upload throughput now shows the sustained rate (cumulative bits / wall-clock elapsed) instead of a peak-of-windowed-average. The displayed number converges to the final result, never overshoots, never end-drops.
+- The test start timestamp is now captured before workers launch (was: on first callback, which over-counted bits arriving during the worker stagger window).
+- Download path adds five LibreSpeed CDNs (Clouvider NYC / ATL / LA, Sharktech Chicago, plus the existing default), spread across the configured worker pool so a single overloaded edge can't cap the result.
+- Jitter calibration now reports the standard-deviation of inter-packet arrival times measured during the steady-state phase only, excluding the ramp-up window.
+
+### 🛠️ Infrastructure
+
+- `gh release create --latest=true` is forced on prereleases so the `/releases/latest` pointer resolves correctly on the beta channel (previously the README's "Download Latest Beta" badge landed on an empty listing).
 
 ---
 

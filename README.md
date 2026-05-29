@@ -9,7 +9,7 @@
 
 ### A Professional Engineer's Toolset for Modern Network Operations
 
-**A self-contained desktop application bundling 25+ network discovery, troubleshooting, security, and performance tools — comparable in scope to enterprise engineer toolsets that retail for $1,500–$2,000 per seat, but free for personal and non-commercial use.**
+**A self-contained desktop application bundling 30+ network discovery, troubleshooting, security, and performance tools — comparable in scope to enterprise engineer toolsets that retail for $1,500–$2,000 per seat, but free for personal and non-commercial use.**
 
 <br/>
 
@@ -50,7 +50,7 @@ It is distributed as a single signed installer for Windows and macOS. Once insta
 
 | Tool | Description | Method |
 |------|-------------|--------|
-| **SNMP Port Mapper** | Walks a switch and correlates IF-MIB, BRIDGE-MIB, Q-BRIDGE-MIB, IP-MIB, LLDP-MIB, and CDP-MIB to produce a full port → MAC → IP → neighbor map; optional L3 correlation against a separate router | SNMP v1/v2c/v3 GET/GETBULK (read-only) |
+| **SNMP Port Mapper** | Walks a switch and correlates IF-MIB, BRIDGE-MIB, Q-BRIDGE-MIB, IP-MIB, LLDP-MIB, and CDP-MIB to produce a full port → MAC → IP → neighbor map; works across Cisco IOS / Catalyst / NX-OS (incl. pure-L2 Nexus access with no SVIs); optional L3 ARP correlation against a separate router (legacy `ipNetToMediaTable` + RFC 4293 fallback); structured diagnostic cards explain L2 / L3 failures with actionable checks | SNMP v1/v2c/v3 GET/GETBULK (read-only) |
 | **Ping Sweep** | Sweep a CIDR for live hosts (capped at 254 hosts) | ICMP echo |
 | **Nmap Scanner** | Port scan a host using the locally installed nmap binary | TCP/UDP scan |
 | **DNS Lookup** | A, AAAA, CNAME, MX, NS, TXT, SOA, PTR records | DNS UDP/53 |
@@ -77,7 +77,7 @@ It is distributed as a single signed installer for Windows and macOS. Once insta
 | **Config Audit** | Static audit of a pasted device configuration (Cisco / Arista / NX-OS style) for weak SNMP communities, telnet, default credentials, missing logging | Local text analysis (no network call) |
 | **Ncat / Netcat** | Reference and command-builder UI | Informational only |
 | **SSH Terminal** | In-browser xterm.js terminal to a target device | SSH TCP/22 |
-| **SCP / SFTP Server** | Runs a local SFTP/SCP server so devices can push configurations to the workstation | SSH TCP (configurable port) |
+| **SCP / SFTP Server** | Runs a local SFTP/SCP server so devices can push configurations to the workstation; native folder picker on both macOS (Finder) and Windows (Explorer) for the root directory | SSH TCP (configurable port) |
 
 ### 📊 Performance
 
@@ -91,7 +91,7 @@ It is distributed as a single signed installer for Windows and macOS. Once insta
 
 | Tool | Description | Method |
 |------|-------------|--------|
-| **Subnet Calculator** | IP/CIDR math, broadcast, usable range, wildcard mask | Offline |
+| **Subnet Calculator** | IP/CIDR math, broadcast, usable range, wildcard mask; enumerates every `/N` block inside a user-selected parent network (Auto = 64 sibling blocks, or pin to `/24`, `/22`, etc.); input subnet highlighted in the table and PDF export | Offline |
 | **IP Converter** | Base and format conversions for IPv4 and IPv6 | Offline |
 | **IP Info** | Public-IP autodetect, geolocation, and PTR record | HTTPS to api.ipify.org and ipwho.is |
 | **Wake-on-LAN** | Send magic packet to wake a host | UDP broadcast or unicast |
