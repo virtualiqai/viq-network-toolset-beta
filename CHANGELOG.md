@@ -8,6 +8,71 @@ The stable-channel history below is mirrored here so testers have full context a
 
 ---
 
+## [2.6.22-beta.6] — 2026-06-08
+
+### 📶 Internet Diagnostic — multi-CDN download fixes under-reported throughput
+
+The download test ran four parallel streams against a **single** CDN, so that one server's per-IP rate limit capped the reading well below line rate (≈60 % low on some corporate links, where a browser multi-CDN speed test pulled far more on the same circuit). Download now runs **eight streams with an asymmetric split**: four stay on the probe-race-winning CDN — preserving the previous number as a floor, so a proxy that blocks the alternate CDNs can never make the result *worse* — and four fan out across the rest of the CDN pool for the additional headroom. A blocked alternate contributes zero rather than dragging the total down. Per-CDN, per-stream results are now written to the log for field diagnosis.
+
+### 🩺 Switch Health — environment parsing fixed across Cisco platforms
+
+Fan, power, and temperature checks frequently returned **"Unknown — output could not be parsed"**. Two root causes, both addressed:
+
+- **Wrong command for the device.** The platform was a manual NX-OS / IOS-XE selection; choosing the wrong one ran a command the device rejects (e.g. `show environment fan` on IOS-XE → `% Invalid input`), and the rejection text reached the parser as "unparseable" data. The tool now **auto-detects the platform from `show version`** and runs the correct universal command — `show environment all` on IOS-XE, `show environment` on NX-OS.
+- **Cross-contaminated parsing.** The combined environment output was fed whole to every section parser, so the power parser counted temperature-sensor rows as power supplies (a Nexus chassis reported six supplies instead of two). Output is now **section-split** so the fan, power, and temperature parsers each see only their own block, and CLI rejection lines are stripped so an unsupported command can't masquerade as bad sensor data. Verified against Catalyst 9600 (IOS-XE 17.10) and Nexus 9000 output, including full sensor-name preservation.
+
+## [2.6.22-beta.5] — 2026-06-06
+
+### 🪟 Internet Diagnostic — gauge needle no longer freezes at the start (Windows)
+
+On Windows the live download/upload gauge needles could sit frozen at the beginning of a test while easing smoothly on macOS. Cause: a leftover inline `transition:transform` on all five needle elements fought the `requestAnimationFrame` follower that rewrites the SVG transform every frame — inert under the macOS WebKit engine but honored by Chromium / WebView2, which restarted a fresh 1.4 s ease on every frame and never converged. The stale CSS transition was removed from all five needles; the rAF follower now owns all needle easing.
+
+## [2.6.22-beta.4] — 2026-06-04
+
+### 📶 Internet Diagnostic — throughput diagnostics
+
+Added structured download/upload result logging (target CDN, strategy, per-stream Mbps, peak, and sample count) to root-cause the under-reported download throughput, and removed the startup instrument sweep on the gauges.
+
+### 🛰️ SNMP Port Mapper — larger routers
+
+The Layer-3 ARP-table walk timeout was raised from 22 s to 90 s for large distribution routers whose `ipNetToMediaTable` is slow to enumerate, with elapsed-time logging added so a slow walk is visible in the log.
+
+### 🧾 Logging
+
+All successful (2xx / 3xx) Werkzeug HTTP access lines are now dropped from `netops.log`; only real tool actions and 4xx / 5xx responses remain.
+
+## [2.6.22-beta.3] — 2026-06-03
+
+### 🔐 TLS — trust the OS certificate store for corporate TLS inspection
+
+On networks that re-sign TLS at an inspecting proxy, every Internet Diagnostic HTTPS request failed certificate verification because the app trusted only its bundled Mozilla CA set — uploads failed outright and downloads were degraded. The app now injects `truststore` at startup so TLS verifies against the **operating-system trust store** (Windows SChannel / macOS keychain), where corporate CAs are installed. `/api/health` now reports `has_truststore` and `tls_trust` (`os-store` vs `certifi`) so the fix can be confirmed on a target machine.
+
+### 📶 Internet Diagnostic
+
+The startup instrument sweep on the gauges is now routed through the easing path instead of snapping.
+
+### 🧾 Logging
+
+High-frequency health and status-poll access lines are filtered out and log rotation was tightened to bound the file size.
+
+## [2.6.22-beta.2] — 2026-06-01
+
+### 🪟 SCP / SFTP — Windows folder picker repaired and made diagnosable
+
+The "Browse" button's native Windows folder dialog returned no path in the frozen build. The `-NonInteractive` flag (which made the dialog return *Cancel* in the windowless process) was removed, the console is now hidden via `CREATE_NO_WINDOW` instead of `-WindowStyle Hidden`, an owner form is activated so the dialog takes foreground, and the helper emits explicit `PICK_OK` / `PICK_CANCEL` / `PICK_ERR` sentinels so an empty result surfaces as a real error instead of a silent cancel.
+
+### 🛰️ SNMP — Windows UDP event-loop policy
+
+Forced `WindowsSelectorEventLoopPolicy` for pysnmp's UDP transport on Windows (the default Proactor loop has fragile datagram support), with `set_event_loop` applied per call. A dedicated Windows CI job and an snmpsim-backed Layer-3 / ARP reproduction test were added; the live test is marked expected-fail pending the deeper SNMP execution-model fix.
+
+### 📶 Internet Diagnostic — connection reuse & needle easing (first pass)
+
+Download workers now reuse one TCP/TLS connection across back-to-back fetches (per-fetch re-handshakes were inflating the rate denominator), and the live download/upload gauge needles ease toward each sample instead of snapping.
+
+### 🧪 Testing infrastructure
+
+Added a local protocol lab (snmpsim, OpenSSH, SFTP, a bandwidth-throttled Caddy, Unbound DNS, ICMP target), a frozen-binary smoke suite, and a Playwright end-to-end scaffold; CI checkout/setup actions were updated.
+
 ## [2.6.22-beta.1] — 2026-05-29
 
 ### 🛰️ SNMP Port Mapper — L3 enrichment hardened across every Cisco platform pair
