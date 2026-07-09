@@ -1,9 +1,9 @@
 {
   "channel": "beta",
-  "version": "2.6.22-beta.7",
+  "version": "2.6.22-beta.8",
   "notes": "See release notes on GitHub",
   "downloads": {
-    "macos": "https://github.com/virtualiqai/viq-releases-beta/releases/download/v2.6.22-beta.7/VIQ-Engineer-Toolset.dmg",
-    "windows": "https://github.com/virtualiqai/viq-releases-beta/releases/download/v2.6.22-beta.7/VIQ-Engineer-Toolset-Setup.exe"
+    "macos": "https://github.com/virtualiqai/viq-releases-beta/releases/download/v2.6.22-beta.8/VIQ-Engineer-Toolset.dmg",
+    "windows": "https://github.com/virtualiqai/viq-releases-beta/releases/download/v2.6.22-beta.8/VIQ-Engineer-Toolset-Setup.exe"
   }
 }
