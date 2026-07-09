@@ -83,6 +83,7 @@ It is distributed as a single signed installer for Windows and macOS. Once insta
 
 | Tool | Description | Method |
 |------|-------------|--------|
+| **Internet Diagnostic** | Streaming WAN speed test — multi-CDN download/upload throughput, idle vs loaded latency, DNS/path/MTU probes, a GT3 gauge cluster, and 12 per-workload verdicts (VoIP, video calls, gaming, VDI, streaming, VPN, and more) with root-cause findings | SSE; HTTPS to public speed-test endpoints |
 | **SockPerf** | TCP and UDP latency and throughput probe with built-in listener mode | TCP/UDP socket |
 | **Bandwidth Calculator** | Throughput, transfer-time, and link-utilization math | Offline |
 | **MSS Calculator** | Path MTU/MSS dual-probe (jumbo 9000 and standard 1500, DF-bit) — classifies jumbo, standard, tunnel-overhead, or fragmented paths | ICMP DF-bit probe |
@@ -200,7 +201,7 @@ To shut down cleanly:
 
 - **In-app:** Click the **Shutdown** button in the application header
 - **Windows:** Right-click the system-tray icon and choose **Quit**
-- **macOS:** Use the in-app Shutdown button (no menu-bar icon in v2.6.19)
+- **macOS:** Use the in-app Shutdown button (no menu-bar icon)
 
 If you close the browser without shutting down, simply reopen the application's URL (it is printed in the launcher window) and use the Shutdown button.
 
@@ -239,7 +240,7 @@ Senior Network Architect / AI Engineer · Founder, Virtual IQ AI
 
 15+ years in enterprise network architecture across data centers, healthcare, and hybrid-cloud environments. Holds CCNP Enterprise, CCNP Data Center, CCNP Security, and Microsoft AZ-700 certifications.
 
-Virtual IQ AI LLC is a company developing AI-augmented network operations tooling for working engineers. The NetOps Toolset is the first publicly released product; NetAI follows in Q4 2026.
+Virtual IQ AI is a company developing AI-augmented network operations tooling for working engineers. The NetOps Toolset is the first publicly released product; NetAI follows in Q4 2026.
 
 ---
 
