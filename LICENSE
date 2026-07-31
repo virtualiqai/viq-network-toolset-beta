@@ -1,15 +1,19 @@
-VIRTUAL IQ AI NETOPS TOOLSET — END-USER LICENSE AGREEMENT
+VIRTUAL IQ AI NETOPS TOOLSET - END-USER LICENSE AGREEMENT
 
-Effective Date: May 21, 2026
-Version: 1.0
+Effective: upon your download, installation, or use of the Software.
+© 2026 Virtual IQ AI · USA. All rights reserved.
 
-IMPORTANT — READ CAREFULLY. THIS END-USER LICENSE AGREEMENT ("AGREEMENT")
+IMPORTANT - READ CAREFULLY. THIS END-USER LICENSE AGREEMENT ("AGREEMENT")
 IS A LEGAL CONTRACT BETWEEN YOU (EITHER AN INDIVIDUAL OR A SINGLE LEGAL
-ENTITY, "YOU" OR "LICENSEE") AND VIRTUAL IQ AI LLC, A NEW JERSEY LIMITED
-LIABILITY COMPANY ("LICENSOR," "VIRTUAL IQ AI," "WE," OR "US"). BY
-DOWNLOADING, INSTALLING, COPYING, OR OTHERWISE USING THE SOFTWARE, YOU
-AGREE TO BE BOUND BY THE TERMS OF THIS AGREEMENT. IF YOU DO NOT AGREE,
-DO NOT DOWNLOAD, INSTALL, OR USE THE SOFTWARE.
+ENTITY, "YOU" OR "LICENSEE") AND VIRTUAL IQ AI · USA ("LICENSOR,"
+"VIRTUAL IQ AI," "WE," OR "US"). BY DOWNLOADING, INSTALLING, COPYING, OR
+OTHERWISE USING THE SOFTWARE, YOU AGREE TO BE BOUND BY THE TERMS OF THIS
+AGREEMENT. IF YOU DO NOT AGREE, DO NOT DOWNLOAD, INSTALL, OR USE THE
+SOFTWARE.
+
+This is a proprietary software license. The Software is NOT open source.
+It is made available free of charge for Personal Use and Non-Commercial
+Use only, subject to the terms below.
 
 ================================================================================
 1. DEFINITIONS
@@ -21,8 +25,7 @@ DO NOT DOWNLOAD, INSTALL, OR USE THE SOFTWARE.
      documentation, sample content, updates, and any related materials
      distributed by Licensor.
 
-1.2  "Licensor" means Virtual IQ AI LLC, a limited liability company
-     organized under the laws of the State of New Jersey, United States.
+1.2  "Licensor" means Virtual IQ AI · USA.
 
 1.3  "Licensee" or "You" means the individual or single legal entity
      accepting this Agreement and using the Software.
@@ -83,7 +86,9 @@ Licensee shall not, and shall not permit any third party to:
 
 3.3  Reverse engineer, decompile, disassemble, decrypt, deobfuscate, or
      otherwise attempt to derive the source code, underlying ideas,
-     algorithms, structure, or organization of the Software, except to
+     algorithms, structure, or organization of the Software, including
+     any attempt to circumvent, defeat, or extract the key from the
+     AES-256-GCM source-code encryption applied to the build, except to
      the limited extent that applicable law expressly permits such
      activity notwithstanding this restriction.
 
@@ -160,8 +165,11 @@ Licensee shall not, and shall not permit any third party to:
 5. DISCLAIMER OF WARRANTIES
 ================================================================================
 
-5.1  THE SOFTWARE IS PROVIDED "AS IS" AND "AS AVAILABLE," WITH ALL
-     FAULTS AND WITHOUT WARRANTY OF ANY KIND.
+5.1  THE SOFTWARE IS PROVIDED FREE OF CHARGE, "AS IS" AND "AS
+     AVAILABLE," WITH ALL FAULTS AND WITHOUT WARRANTY OF ANY KIND. YOUR
+     USE OF THE SOFTWARE IS VOLUNTARY, AND YOU ASSUME FULL RESPONSIBILITY
+     FOR, AND ALL RISK ARISING FROM, YOUR ACCESS TO AND USE OF THE
+     SOFTWARE.
 
 5.2  TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, LICENSOR
      DISCLAIMS ALL WARRANTIES, EXPRESS, IMPLIED, OR STATUTORY,
@@ -207,10 +215,10 @@ Licensee shall not, and shall not permit any third party to:
 ================================================================================
 
 7.1  Outputs of the Software, including diagnostic reports, scan
-     results, configuration audits, and any other information produced
-     by the Software, are provided for informational purposes only and
-     do not constitute professional engineering, security, legal,
-     regulatory, or compliance advice.
+     results, configuration audits, WLAN investigations, and any other
+     information produced by the Software, are provided for informational
+     purposes only and do not constitute professional engineering,
+     security, legal, regulatory, or compliance advice.
 
 7.2  Licensee is solely responsible for applying professional judgment
      to any decision made on the basis of Software output.
@@ -302,14 +310,20 @@ Licensee shall not, and shall not permit any third party to:
 11. THIRD-PARTY COMPONENTS
 ================================================================================
 
-11.1 The Software includes open-source and third-party components
-     identified in the file THIRD_PARTY_LICENSES.md distributed with the
-     Software. Each such component is licensed under its own terms,
-     which are reproduced in that file.
+11.1 The Software includes open-source and third-party components,
+     data sets, and assets identified in the file
+     THIRD_PARTY_LICENSES.md distributed with the Software. Each such
+     component is licensed under its own terms, which are reproduced or
+     referenced in that file.
 
 11.2 To the extent any third-party component license conflicts with
      this Agreement with respect to that component, the third-party
      license shall govern that component only.
+
+11.3 Third-party product names, brand names, and logos referenced or
+     displayed within the Software (including import-source application
+     icons) are the property of their respective owners and are used for
+     identification purposes only. See NOTICE.md.
 
 ================================================================================
 12. PRIVACY
@@ -330,10 +344,10 @@ Licensee shall not, and shall not permit any third party to:
      SECURITY.md.
 
 12.4 Licensee acknowledges that any credentials, IP addresses, hostnames,
-     or other information Licensee enters into the Software remain on
-     Licensee's local device, including in a local activity log
-     described in SECURITY.md. Licensee is responsible for safeguarding
-     this local data.
+     configurations, or other information Licensee enters into the
+     Software remain on Licensee's local device, including in a local
+     activity log described in SECURITY.md. Licensee is responsible for
+     safeguarding this local data.
 
 ================================================================================
 13. TERM AND TERMINATION
@@ -366,26 +380,37 @@ Licensee shall not, and shall not permit any third party to:
      license expressly granted in Section 2.
 
 14.2 "Virtual IQ AI" and the Virtual IQ AI logo are trademarks of
-     Muhammad Kashif. All other trademarks referenced in the Software or
-     its documentation are the property of their respective owners.
+     Virtual IQ AI · USA. All other trademarks, service marks, product
+     names, and logos referenced in the Software or its documentation
+     are the property of their respective owners and are used for
+     identification purposes only, without any claim of affiliation or
+     endorsement.
 
 14.3 No rights are granted by implication, estoppel, or otherwise except
      as expressly set forth in this Agreement.
 
 ================================================================================
-15. GOVERNING LAW AND VENUE
+15. GENERAL
 ================================================================================
 
-15.1 This Agreement is governed by and construed under the laws of the
-     State of New Jersey, United States of America, without regard to its
-     conflict-of-laws principles. The United Nations Convention on
-     Contracts for the International Sale of Goods does not apply.
+15.1 The Software is provided free of charge and on an "as is" basis.
+     Licensor designates no particular forum, court, or venue, and does
+     not consent to the jurisdiction of any particular forum. Any matter
+     arising out of or relating to this Agreement or the Software is
+     subject to the disclaimers of warranty and the limitations of
+     liability set out above, which apply to the maximum extent permitted
+     by any law that is found to apply.
 
-15.2 Licensee consents to the exclusive jurisdiction of, and venue in,
-     the state and federal courts located in Middlesex County, New
-     Jersey, for any action arising out of or relating to this Agreement
-     or the Software. Licensee waives any objection to such jurisdiction
-     or venue based on inconvenient forum or otherwise.
+15.2 If any provision of this Agreement is held invalid or unenforceable,
+     that provision shall be limited or removed to the minimum extent
+     necessary, and the remaining provisions shall remain in full force
+     and effect.
+
+15.3 Licensor's failure to enforce any provision of this Agreement is not
+     a waiver of that provision or of any other provision.
+
+15.4 This Agreement is the entire agreement between you and Licensor
+     regarding the Software and supersedes any prior understanding.
 
 15.3 The prevailing party in any action arising out of this Agreement
      shall be entitled to recover its reasonable attorneys' fees and
@@ -452,12 +477,12 @@ authorized representative of Licensor.
 For questions about this Agreement, commercial-licensing inquiries, or
 authorized use cases beyond the scope of this license, contact:
 
-  Virtual IQ AI LLC
+  Virtual IQ AI · USA
   Email:    info@virtualiqai.com
   Web:      https://github.com/virtualiqai
   Releases: https://github.com/virtualiqai/viq-releases
 
 ================================================================================
 
-© 2026 Virtual IQ AI LLC. All rights reserved.
-"Virtual IQ AI"™ is a trademark of Muhammad Kashif.
+© 2026 Virtual IQ AI · USA. All rights reserved.
+"Virtual IQ AI" is a trademark of Virtual IQ AI · USA.

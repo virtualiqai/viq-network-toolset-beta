@@ -1,8 +1,19 @@
-# Security & Privacy — Beta Channel
+# Security & Privacy
 
-This document describes the security posture, privacy behavior, and data handling of Virtual IQ AI NetOps Toolset. We aim to be transparent about every outbound connection the software makes and every file it writes to disk.
+This document describes the security posture, privacy behavior, and data handling of Virtual IQ AI NetOps Toolset (also distributed as **VIQ Engineer Toolset**). We aim to be transparent about every outbound connection the software makes and every file it writes to disk.
 
-The behavior described here applies identically to the [stable channel](https://github.com/virtualiqai/viq-releases) — beta and stable builds are produced from the same source tree by the same CI pipeline and ship with the same encryption, redaction, and rate-limit guarantees. The only difference is maturity.
+The behavior described here applies to both release channels - the [stable channel](https://github.com/virtualiqai/viq-releases) and the [beta channel](https://github.com/virtualiqai/viq-releases-beta). Beta and stable builds are produced from the same source tree by the same CI pipeline and ship with the same encryption, redaction, and rate-limit guarantees. The only difference is maturity.
+
+---
+
+## The Short Version
+
+- **Runs locally.** The application binds its web UI to `127.0.0.1` (loopback) only - nothing on your network can reach it.
+- **No account, no cloud.** There is no sign-in, no cloud service, and no data sync.
+- **No telemetry.** No analytics, no crash reporting, no usage tracking.
+- **Read-only by default** against target devices (SSH Terminal and the optional SCP/SFTP Server are the only operator-initiated exceptions).
+- **Credentials stay on your machine.** One-off tool credentials are not persisted and are redacted from the local activity log; any SSH credentials you choose to save are held in an OS-protected, AES-256-GCM encrypted vault - never in plaintext, never in the cloud.
+- **Report a vulnerability** privately to **security@virtualiqai.com** - please do not open a public issue.
 
 ---
 
@@ -11,24 +22,22 @@ The behavior described here applies identically to the [stable channel](https://
 Beta builds carry an additional class of risk that does not apply to stable builds:
 
 - **Functional regressions may be present.** A feature that worked in the previous stable release may not work in the current beta. Keep a known-good stable build available for fallback.
-- **Behavior may change between beta iterations.** A `v2.6.20-beta.1` and a `v2.6.20-beta.3` are not API-compatible — keyboard shortcuts, UI layout, log formats, and configuration file shapes may shift while we iterate.
+- **Behavior may change between beta iterations.** A `v3.0.0-beta.1` and a `v3.0.0-beta.13` are not guaranteed to be compatible - keyboard shortcuts, UI layout, log formats, and configuration file shapes may shift while we iterate.
 - **Beta builds are not intended for production-adjacent use.** Use them on the same workstations and against the same devices as stable builds, but expect to roll back if needed.
 - **Beta-specific diagnostics may be enabled.** Some beta builds raise log verbosity, add tracebacks, or expose internal state through `/api/health` that the stable channel does not. Treat the beta `netops.log` as a debugging artifact; do not retain or share it without redacting any device identifiers it may have captured.
 
-The security guarantees listed in the rest of this document — credential redaction, AES-256-GCM source encryption, loopback-only listener, read-only-by-default operations against target devices, no telemetry — apply equally to beta and stable.
+The security guarantees listed in the rest of this document - credential redaction, AES-256-GCM source encryption, loopback-only listener, read-only-by-default operations against target devices, no telemetry - apply equally to beta and stable.
 
 ---
 
 ## Supported Versions
 
 | Channel | Repository | Status |
-|---------|------------|--------|
-| **Beta** *(this repo)* | [`virtualiqai/viq-releases-beta`](https://github.com/virtualiqai/viq-releases-beta) | ⚠️ Pre-release — for testing only |
-| **Stable** | [`virtualiqai/viq-releases`](https://github.com/virtualiqai/viq-releases) | ✅ Active — production line |
+|-----|------|----|
+| **Stable** | [`virtualiqai/viq-releases`](https://github.com/virtualiqai/viq-releases) | ✅ Active - production line |
+| **Beta** | [`virtualiqai/viq-releases-beta`](https://github.com/virtualiqai/viq-releases-beta) | ⚠️ Pre-release - for testing only |
 
-Only the most recent beta build is considered supported. The release page retains up to three recent betas for downgrade comparisons, but security and bug fixes only land in the latest. To get a fix backported to an older beta, run the *latest* beta or wait for the matching stable release.
-
-Always download from the [official beta release page](https://github.com/virtualiqai/viq-releases-beta/releases). Do not run beta binaries obtained from third-party mirrors or unofficial sources.
+Only the most recent build on each channel is considered supported. The beta release page retains up to three recent betas for downgrade comparisons, but security and bug fixes only land in the latest. Always download from the official release page - do not run binaries obtained from third-party mirrors or unofficial sources.
 
 ---
 
@@ -36,13 +45,13 @@ Always download from the [official beta release page](https://github.com/virtual
 
 ### Current Status
 
-- **Windows installer** — **not currently code-signed.** Microsoft SmartScreen may display a warning on first launch. See *First-Run Warnings* below.
-- **macOS application** — built with conditional Apple Developer ID signing in the CI pipeline. Verification of the published DMG can be performed by running:
+- **Windows installer** - **not currently code-signed.** Microsoft SmartScreen may display a warning on first launch. See *First-Run Warnings* below.
+- **macOS application** - built with conditional Apple Developer ID signing in the CI pipeline. Verification of the published DMG can be performed by running:
   ```bash
   spctl --assess --type execute --verbose /Applications/VIQ\ Engineer\ Toolset.app
   codesign -dv /Applications/VIQ\ Engineer\ Toolset.app
   ```
-- **SHA-256 checksums** — **published with every release starting v2.5.0.** A `SHA256SUMS.txt` file is attached to each GitHub release alongside the DMG and Setup.exe. Verify with:
+- **SHA-256 checksums** - **published with every release.** A `SHA256SUMS.txt` file is attached to each GitHub release alongside the DMG and Setup.exe. Verify with:
   ```bash
   # macOS / Linux
   shasum -a 256 -c SHA256SUMS.txt
@@ -53,21 +62,13 @@ Always download from the [official beta release page](https://github.com/virtual
 
 ### Roadmap
 
-A future release will include:
-- Authenticode-signed Windows installer
-- Fully notarized macOS application (Apple Developer ID + notarization stapled to the DMG)
-
-Until then, please verify you are downloading directly from the official GitHub beta release page:
-
-```
-https://github.com/virtualiqai/viq-releases-beta/releases
-```
+A future release will include an Authenticode-signed Windows installer and a fully notarized macOS application (Apple Developer ID + notarization stapled to the DMG). Until then, please verify you are downloading directly from the official GitHub release page.
 
 ---
 
 ## First-Run Warnings
 
-Independent software publishers without long-standing reputation will encounter operating-system security warnings on first launch. This is expected behavior and does not indicate the software is malicious. Detailed step-by-step bypass instructions are in the [README](./README.md#-first-run-security-warnings).
+Independent software publishers without long-standing reputation will encounter operating-system security warnings on first launch. This is expected behavior and does not indicate the software is malicious. Detailed step-by-step instructions are in the README under *First-Run Security Warnings*.
 
 ---
 
@@ -78,18 +79,18 @@ The application performs **no telemetry, no analytics, no crash reporting, and n
 ### Always-On Outbound Connections
 
 | When | Destination | Purpose | Data Sent |
-|------|-------------|---------|-----------|
-| Application startup | `raw.githubusercontent.com/virtualiqai/viq-releases/main/version.json` (stable channel) **OR** `raw.githubusercontent.com/virtualiqai/viq-releases-beta/main/version.json` (beta channel), depending on the channel selected on the About page (HTTPS) | Check whether a newer release is available on the active channel | None — only the HTTP request itself. No system information, IP address, machine identifier, or user identifier is transmitted in the request body. Standard HTTP headers are sent by the underlying OS/HTTP library. |
+|---|-------|-----|------|
+| Application startup | `raw.githubusercontent.com/virtualiqai/viq-releases/main/version.json` (stable) **OR** `raw.githubusercontent.com/virtualiqai/viq-releases-beta/main/version.json` (beta), depending on the channel selected on the About page (HTTPS) | Check whether a newer release is available on the active channel | None - only the HTTP request itself. No system information, IP address, machine identifier, or user identifier is transmitted in the request body. Standard HTTP headers are sent by the underlying OS/HTTP library. |
 
-The version check happens once at startup with a 5-second timeout. If the request fails, the application continues normally.
+The version check happens once at startup with a short timeout. If the request fails, the application continues normally.
 
 ### Opt-In Outbound Connections
 
 These connections only happen when you invoke the specific tool:
 
 | Tool | Destination | Purpose |
-|------|-------------|---------|
-| **IP Info** | `api.ipify.org` (HTTPS) | Detect your public IPv4 address — only triggered if you leave the IP field blank |
+|---|-------|-----|
+| **IP Info** | `api.ipify.org` (HTTPS) | Detect your public IPv4 address - only triggered if you leave the IP field blank |
 | **IP Info** | `ipwho.is` (HTTPS) | Geolocation of an IP address |
 | **BGP ASN Lookup** | `rdap.arin.net`, `rdap.db.ripe.net`, `rdap.apnic.net` (HTTPS) | Retrieve ASN ownership and announced prefixes via RDAP |
 
@@ -97,48 +98,51 @@ If you never use these tools, these connections never occur.
 
 ### Targeted Device Traffic
 
-All other network traffic — SNMP, SSH, ICMP, DNS, WHOIS, and TCP probes — goes directly from your workstation to the device or host you point the tool at. This traffic is not proxied, mirrored, or observed by Virtual IQ AI.
+All other network traffic - SNMP, SSH, ICMP, DNS, WHOIS, DHCP, RADIUS, and TCP probes - goes directly from your workstation to the device or host you point the tool at. This traffic is not proxied, mirrored, or observed by Virtual IQ AI · USA.
 
 ---
 
 ## Credential Handling
 
-### Device Credentials Are Never Persisted
+### One-Off Tool Credentials Are Not Persisted
 
-The application does **not save device credentials between runs**. Specifically:
+Credentials entered for a single tool run - **SNMP community strings, SSH passwords or keys for ad-hoc connections, and API/auth tokens** - are **not saved between runs**. They live only in the browser form fields, are passed per-request in the JSON body to the local backend, and are discarded after use.
 
-- **SNMP community strings**
-- **SSH passwords**
-- **SSH private keys**
-- **API tokens or auth tokens** entered into any tool
+### Saved SSH Sessions & the Encrypted Credential Vault
 
-These values live only in form fields in the browser and are passed per-request in the JSON body to the local backend. The application does not contain a master credential vault.
+The SSH Terminal lets you **optionally save** hosts, groups, and connection settings for reuse. When you choose to save a credential (an SSH/SFTP username and password, or a key passphrase), it is placed in an **encrypted credential vault** - never stored in plaintext:
 
-### Activity Log — Automatic Credential Redaction
+- **Saved hosts** live in `ssh-store.json` in your local data directory and reference a stored secret only by an **opaque `credential_id`**. This file contains **no plaintext passwords**.
+- **The vault** (`vault.enc`) is encrypted with **AES-256-GCM** (a fresh nonce per write). Its master key is protected by your operating system's keystore - the **macOS login Keychain** (via `/usr/bin/security`) or **Windows DPAPI** (`CryptProtectData`, user scope) - or, optionally, by a **passphrase you set** (key derived with **scrypt**) for shared machines or CI.
+- Saved secrets are decrypted **only in memory**, resolved **server-side at connect time**, and are **never returned to the browser UI, included in session exports, or written into any report**.
+- Everything stays on your machine; no saved credential is ever transmitted to Virtual IQ AI or to any cloud service.
+
+### Activity Log - Automatic Credential Redaction
 
 The application maintains a local audit log of API calls (path, method, status, duration, partial request body up to 2 KB) in `netops_activity.db`. **Request bodies persisted to this log are automatically redacted before insert.**
 
-The redaction logic walks each JSON request body and replaces values for approximately 20 credential-related field names — including `community`, `password`, `private_key`, `privateKey`, `auth_password`, `priv_password`, `snmp_community`, `authKey`, `privKey`, `token`, and others — with the literal string `***REDACTED***`. Matching is case-insensitive on keys and recursive into nested objects and arrays.
+The redaction logic walks each JSON request body and replaces values for approximately 20 credential-related field names - including `community`, `password`, `private_key`, `privateKey`, `auth_password`, `priv_password`, `snmp_community`, `authKey`, `privKey`, `token`, and others - with the literal string `***REDACTED***`. Matching is case-insensitive on keys and recursive into nested objects and arrays.
 
 In addition, the entire request bodies of **`/api/ssh/*`** and **`/api/filetransfer/user/*`** endpoints are excluded from activity logging entirely as a defense-in-depth measure.
 
-Six unit tests cover the redaction logic, including SNMP community strings, passwords, private keys, nested objects, non-JSON bodies, empty input, and case insensitivity.
-
-To clear the activity log on demand, open the application, navigate to **Developer → Activity Log**, and click **Clear Log**. The same operation is available via the API: `DELETE /api/activity-log`.
+To clear the activity log on demand, open the application, navigate to **Activity Log**, and click **Clear Log**. The same operation is available via the API: `DELETE /api/activity-log`.
 
 ---
 
 ## Local Data Storage
 
-The application stores the following files on your local machine inside the installation directory (Windows: `%PROGRAMFILES%\VIQ Engineer Toolset\`; macOS: inside the application bundle's working directory):
+The application stores the following files on your local machine in a per-platform, user-writable data directory (Windows: `%LOCALAPPDATA%\VIQ Engineer Toolset\`; macOS: `~/Library/Application Support/VIQ Engineer Toolset/`; override via `NETOPS_DATA_DIR`):
 
 | File | Purpose | Retention |
-|------|---------|-----------|
-| `netops_activity.db` | Local SQLite audit log of every API call (HTTP method, path, status, duration, client IP, **redacted** request body up to 2 KB) | Auto-purged after **14 days** |
+|---|-----|------|
+| `netops_activity.db` | Local SQLite audit log of every API call (method, path, status, duration, client IP, **redacted** request body up to 2 KB) | Auto-purged after **14 days** |
 | `port_mapper.db` | History of SNMP port-mapper scans, by switch (interface tables, MAC tables) | Until manually deleted |
+| `ssh-store.json` | Saved SSH hosts, groups, snippets, and settings. Secrets are referenced by `credential_id` only - **no plaintext passwords** | Until manually deleted |
+| `vault.enc` | Encrypted credential vault (AES-256-GCM; key in the OS keystore or your passphrase) holding saved SSH/SFTP secrets | Until manually deleted |
 | `known_hosts` | SSH host-key fingerprints for hosts you've connected to | Until manually deleted |
 | `netops-filetransfer.json` | Configuration for the SCP/SFTP server (only if you start that feature) | Until manually deleted |
 | `netops-sftp-host.key*` | SSH host keys used by the SCP/SFTP server (only if you start that feature) | Until manually deleted |
+| `netops.log` | Rotating diagnostic log | Bounded by rotation |
 
 None of these files are transmitted off your machine.
 
@@ -146,7 +150,7 @@ None of these files are transmitted off your machine.
 
 ## SSH Authentication
 
-The SSH Terminal and Switch Health tools support three authentication modes:
+The SSH Terminal, Switch Health, and Config Audit tools support three authentication modes:
 
 - Username and password
 - RSA, Ed25519, ECDSA, or DSS private key (pasted into the UI)
@@ -158,7 +162,7 @@ SSH host keys are stored in a local `known_hosts` file for future verification, 
 
 ## Optional Local-User Authentication
 
-The application supports an optional local username/password gate for the web UI itself (separate from device credentials). This is activated by setting the environment variable `NETOPS_REQUIRE_AUTH=true` or by creating a `netops-users.json` file. Passwords for this local gate are hashed using **PBKDF2-SHA256 with 600,000 iterations** before storage — they are never persisted in plaintext.
+The application supports an optional local username/password gate for the web UI itself (separate from device credentials). This is activated by setting the environment variable `NETOPS_REQUIRE_AUTH=true` or by creating a `netops-users.json` file. Passwords for this local gate are hashed using **PBKDF2-SHA256 with 600,000 iterations** before storage - they are never persisted in plaintext.
 
 By default this feature is **disabled** and the loopback-only listener provides the security boundary.
 
@@ -168,14 +172,15 @@ By default this feature is **disabled** and the loopback-only listener provides 
 
 The toolset is **read-only by default** with respect to target devices:
 
-- **SNMP** — GET / GETBULK / WALK only. The application never issues SNMP SET.
-- **Switch Health** — Uses a strict allowlist of `show` commands. The strings `configure`, `reload`, `clear`, `copy`, `write`, and `erase` are hard-blocked in the command path.
-- **Config Audit** — Operates only on text you paste into the UI. No outbound network call.
+- **SNMP** - GET / GETBULK / WALK only. The application never issues SNMP SET.
+- **Switch Health** - Uses a strict allowlist of `show` commands. The strings `configure`, `reload`, `clear`, `copy`, `write`, and `erase` are hard-blocked in the command path.
+- **Config Audit** - Operates on text you paste into the UI or a read-only configuration retrieved over SSH; it never writes to the device.
+- **WLAN tools** - Query the operating system's Wi-Fi interfaces and issue benign, standards-based probes (DHCP, RADIUS reachability, gateway RTT). They do not alter device or AP configuration.
 
 The only ways the toolset writes to a device are:
 
-- **SSH Terminal** — whatever the operator types in the terminal session
-- **SCP / SFTP Server** — accepts inbound file pushes initiated by a target device
+- **SSH Terminal** - whatever the operator types in the terminal session
+- **SCP / SFTP Server** - accepts inbound file pushes initiated by a target device
 
 Both of these are explicitly operator-initiated.
 
@@ -186,12 +191,12 @@ Both of these are explicitly operator-initiated.
 The application enforces per-client-IP, per-tool rate limits to prevent the toolset from being weaponized to flood target devices:
 
 | Tool | Rate | Concurrency | Hard Cap |
-|------|------|-------------|----------|
-| SNMP | 6 RPM | 1 | — |
+|---|---|-------|-----|
+| SNMP | 6 RPM | 1 | - |
 | Sweep | 3 RPM | 1 | 254 hosts |
 | Port Scan | 5 RPM | 1 | 100 ports |
-| NetDiag | 4 RPM | 1 | — |
-| fping | — | — | 20 hosts |
+| NetDiag | 4 RPM | 1 | - |
+| fping | - | - | 20 hosts |
 
 Ten rate-limit violations within a minute trigger a 60-second lockout for that client IP.
 
@@ -217,7 +222,7 @@ If you discover a security vulnerability, please report it privately. **Do not o
 
 **Preferred channels:**
 - **Email:** security@virtualiqai.com (use the subject line `[SECURITY]`)
-- **GitHub:** Open a private security advisory on [the beta repo](https://github.com/virtualiqai/viq-releases-beta/security/advisories/new) or [the stable repo](https://github.com/virtualiqai/viq-releases/security/advisories/new) — whichever channel the issue applies to
+- **GitHub:** Open a private security advisory on [the stable repo](https://github.com/virtualiqai/viq-releases/security/advisories/new) or [the beta repo](https://github.com/virtualiqai/viq-releases-beta/security/advisories/new) - whichever channel the issue applies to
 
 **Please include:**
 1. A description of the vulnerability
@@ -226,7 +231,7 @@ If you discover a security vulnerability, please report it privately. **Do not o
 4. Potential impact assessment
 5. Your suggested remediation, if any
 
-We aim to acknowledge reports within **72 hours** and to publish a fix or mitigation guidance promptly. Researchers who responsibly disclose will be credited in the changelog (with consent).
+We aim to acknowledge reports within **72 hours** and to publish a fix or mitigation guidance promptly. Researchers who responsibly disclose will be credited in the changelog (with consent). We ask that you give us a reasonable opportunity to remediate before any public disclosure, and that your testing be limited to systems you are authorized to test.
 
 ---
 
@@ -244,4 +249,4 @@ When deploying this toolset in a corporate or sensitive environment:
 
 ---
 
-*© 2026 Virtual IQ AI LLC. All rights reserved.*
+*© 2026 Virtual IQ AI · USA. All rights reserved.*

@@ -8,6 +8,52 @@ The stable-channel history below is mirrored here so testers have full context a
 
 ---
 
+## [3.0.0-beta.13] - 2026-07-31
+
+### Standardized, verdict-led reporting across every tool
+
+Reporting has been unified into a single Virtual IQ AI-branded report system. Every tool now produces a **color-coded, verdict-led PDF** with a consistent header, a plain-language verdict banner (pass / warning / fail), the evidence that produced the verdict, and per-finding remediation notes - so a report reads the same way no matter which tool generated it.
+
+- **New PDF reports** were added for tools that previously had none: **Port Scanner, Ncat/Netcat, SSL/TLS Inspector, WHOIS, MSS Calculator, IP Info, Wake-on-LAN,** and the **SCP/SFTP file-transfer log**.
+- **Real spreadsheet export.** **MAC Address Lookup** and the **SNMP Port Mapper** now export genuine `.xlsx` workbooks (not CSV-renamed-to-xlsx), so vendor/port inventories open cleanly in Excel and Numbers.
+
+### Switch Health - interface scoring fix + NX-OS naming
+
+- Corrected the **interface health scoring** so error/discard counters are attributed to the right interface and no longer skew the overall health verdict.
+- **NX-OS platform name** is now reported correctly alongside the auto-detected IOS-XE / NX-OS environment command selection.
+
+### Config Audit - diff and configuration downloads
+
+- Added a **side-by-side startup-vs-running diff** with added / removed / changed counts, and the ability to **download the retrieved device configuration** over a read-only SSH session. The device is never modified.
+
+### WLAN Investigator - evidence-led diagnosis
+
+- The **WLAN Investigator** now embeds the **full evidence trail** it collects (signal, roaming, DHCP, DNS, gateway, RADIUS, captive-portal, and cloud-application reachability) directly in its verdict report, so a Wi-Fi diagnosis is reproducible and shareable.
+
+### Import experience - real import-source logos
+
+- The SSH/import experience now shows the **real brand logos** of each import source (e.g., PuTTY, SecureCRT, MobaXterm, OpenSSH config, CSV, and VIQ JSON) for faster recognition. These third-party names and logos are the property of their respective owners and are used for identification only under nominative fair use - see [NOTICE.md](./NOTICE.md) and [THIRD_PARTY_LICENSES.md](./THIRD_PARTY_LICENSES.md).
+
+### Documentation & licensing
+
+- README, LICENSE, TERMS_OF_USE, and SECURITY refreshed for the 3.0 catalog and updated attribution (**Virtual IQ AI · USA**); the license model is stated explicitly as **free for personal and non-commercial use, commercial use by separate written license**.
+
+---
+
+<!--
+  The existing beta changelog history continues below this line, unchanged:
+
+  ## [3.0.0-beta.x] … (WLAN suite, Termius-style SSH grid, multi-tool import, etc.)
+  ## Stable Channel History
+  ## [2.6.22] … [2.4.2]
+
+  Paste the current repo CHANGELOG body here beneath the new entry above when publishing.
+-->
+
+---
+
+*© 2026 Virtual IQ AI · USA. All rights reserved.*
+
 ## [2.6.22-beta.6] — 2026-06-08
 
 ### 📶 Internet Diagnostic — multi-CDN download fixes under-reported throughput
