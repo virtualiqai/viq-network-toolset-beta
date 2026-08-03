@@ -11,7 +11,7 @@ However, the project benefits enormously from real-world feedback. The list belo
 Found something broken? Please file a report so it can be reproduced and fixed.
 
 **Where to file:**
-- **Public bug:** [GitHub Issues](https://github.com/virtualiqai/viq-releases/issues/new)
+- **Public bug:** [GitHub Issues](https://github.com/virtualiqai/viq_eng_toolset/issues/new)
 - **Security vulnerability:** Do **not** file publicly. See [SECURITY.md](./SECURITY.md) for the private disclosure process.
 
 **What to include:**

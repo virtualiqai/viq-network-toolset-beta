@@ -15,7 +15,7 @@
 
 [![Version](https://img.shields.io/badge/version-3.0.0--beta.13-F59E0B?style=flat-square)](https://github.com/virtualiqai/viq-releases-beta/releases)
 [![Channel](https://img.shields.io/badge/channel-BETA-F59E0B?style=flat-square)](https://github.com/virtualiqai/viq-releases-beta/releases)
-[![Stable](https://img.shields.io/badge/stable-virtualiqai%2Fviq--releases-2563EB?style=flat-square)](https://github.com/virtualiqai/viq-releases)
+[![Stable](https://img.shields.io/badge/stable-virtualiqai%2Fviq__eng__toolset-2563EB?style=flat-square)](https://github.com/virtualiqai/viq_eng_toolset)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS-lightgrey?style=flat-square)](https://github.com/virtualiqai/viq-releases-beta/releases)
 [![License](https://img.shields.io/badge/license-Proprietary-red?style=flat-square)](./LICENSE)
 [![Free](https://img.shields.io/badge/free-Personal%20%2F%20Non--Commercial-2EA043?style=flat-square)](./LICENSE)
@@ -36,7 +36,7 @@
 </div>
 
 > [!WARNING]
-> **This is the beta release channel.** Builds in this repository are pre-release and may contain unfinished features, regressions, or instability. They are intended for testers and early adopters - not for production-adjacent use. For the stable production line, install from the [main release repository](https://github.com/virtualiqai/viq-releases) instead. Beta and stable installers can replace each other in place; your settings and data are preserved.
+> **This is the beta release channel.** Builds in this repository are pre-release and may contain unfinished features, regressions, or instability. They are intended for testers and early adopters - not for production-adjacent use. For the stable production line, install from the [main release repository](https://github.com/virtualiqai/viq_eng_toolset) instead. Beta and stable installers can replace each other in place; your settings and data are preserved.
 
 ## Overview
 
@@ -222,7 +222,7 @@ If you close the browser without shutting down, simply reopen the application's 
 Virtual IQ AI NetOps Toolset is designed to be transparent about every outbound connection. Network traffic from the toolset itself falls into three categories:
 
 1. **Targeted device traffic** - SNMP, SSH, ICMP, DHCP, RADIUS, and TCP probes go directly to whatever device or host you point the tool at.
-2. **Version check (always-on at startup)** - A single HTTPS GET to either `raw.githubusercontent.com/virtualiqai/viq-releases/main/version.json` (stable channel) or `raw.githubusercontent.com/virtualiqai/viq-releases-beta/main/version.json` (beta channel) depending on the channel selected on the About page, to check whether a newer release is available. No system information, IP address, or identifier is sent.
+2. **Version check (always-on at startup)** - A single HTTPS GET to either `raw.githubusercontent.com/virtualiqai/viq_eng_toolset/main/version.json` (stable channel) or `raw.githubusercontent.com/virtualiqai/viq-releases-beta/main/version.json` (beta channel) depending on the channel selected on the About page, to check whether a newer release is available. No system information, IP address, or identifier is sent.
 3. **Opt-in third-party lookups (only when you click the tool)** - `api.ipify.org` and `ipwho.is` for the **IP Info** tool, and RDAP queries to `rdap.arin.net`, `rdap.db.ripe.net`, and `rdap.apnic.net` for **BGP ASN Lookup**.
 
 The application performs **no telemetry, no analytics, no crash reporting, and no usage tracking.** Full details are in [SECURITY.md](./SECURITY.md).
@@ -266,7 +266,7 @@ This software is proprietary and distributed in compiled-binary form only. The s
 - **Email:** info@virtualiqai.com
 - **GitHub:** [github.com/virtualiqai](https://github.com/virtualiqai)
 - **Beta-channel issues & feature requests:** [github.com/virtualiqai/viq-releases-beta/issues](https://github.com/virtualiqai/viq-releases-beta/issues) - please report beta-specific regressions here so they stay separated from stable bugs
-- **Stable-channel issues:** [github.com/virtualiqai/viq-releases/issues](https://github.com/virtualiqai/viq-releases/issues)
+- **Stable-channel issues:** [github.com/virtualiqai/viq_eng_toolset/issues](https://github.com/virtualiqai/viq_eng_toolset/issues)
 
 ---
 
