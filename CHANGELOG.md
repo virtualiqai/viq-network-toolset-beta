@@ -2,9 +2,23 @@
 
 All notable changes to **VIQ Engineer Toolset — Beta channel** are documented here. Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and adheres to [Semantic Versioning](https://semver.org/) with the pre-release identifier extension (e.g., `2.6.21-beta.1`).
 
-Beta builds are produced from the `beta` branch of the private source repository by the same CI pipeline that produces stable builds. When a beta has been validated, it is promoted to the stable channel by dropping the `-beta.N` suffix and tagging on `main`; promoted versions appear under their clean number in the [stable channel changelog](https://github.com/virtualiqai/viq-releases/blob/main/CHANGELOG.md).
+Beta builds are produced from the `beta` branch of the private source repository by the same CI pipeline that produces stable builds. When a beta has been validated, it is promoted to the stable channel by dropping the `-beta.N` suffix and tagging on `main`; promoted versions appear under their clean number in the [stable channel changelog](https://github.com/virtualiqai/viq_eng_toolset/blob/main/CHANGELOG.md).
 
 The stable-channel history below is mirrored here so testers have full context about what each beta is built on top of. Beta-specific entries (e.g., `[2.6.21-beta.1]`) are added above the stable history as betas ship.
+
+---
+
+## [3.0.3] - 2026-08-26 — promoted to stable
+
+`3.0.3-beta.2` was validated and promoted to the stable channel as **v3.0.3**,
+together with two fixes made during promotion: Config Audit PDF exports now
+redact device secrets, and MTR reports partial per-hop loss on macOS/Linux
+(it was already correct on Windows). Full notes live in the
+[stable channel changelog](https://github.com/virtualiqai/viq_eng_toolset/blob/main/CHANGELOG.md).
+
+> **Upgrading on Windows:** close VIQ Engineer Toolset before running the
+> installer — the application locks its own program file while running, and the
+> installer will stop with "Error opening file for writing" if it is still open.
 
 ---
 
