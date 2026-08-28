@@ -25,6 +25,7 @@
 
 [**⬇ Download Latest Beta**](https://github.com/virtualiqai/viq-network-toolset-beta/releases) &nbsp;|&nbsp;
 [**📋 Beta Changelog**](./CHANGELOG.md) &nbsp;|&nbsp;
+[**🎬 Tool demos**](https://github.com/virtualiqai/viq-network-toolset/tree/main/demos) &nbsp;|&nbsp;
 [**🔐 Security & Privacy**](./SECURITY.md) &nbsp;|&nbsp;
 [**📜 Terms of Use**](./TERMS_OF_USE.md) &nbsp;|&nbsp;
 [**💬 Report a Beta Issue**](https://github.com/virtualiqai/viq-network-toolset-beta/issues)
@@ -47,6 +48,10 @@ It is distributed as a single installer for Windows and macOS. Once installed, i
 **What's new in 3.0 (beta):** a full **WLAN Investigator suite** (Wi-Fi diagnostics, roaming, DHCP, RADIUS, AP uplink, and RF reference), the native **Port Scanner** (which replaces the former Nmap-dependent scanner - no external `nmap` binary required), and **standardized, verdict-led PDF reporting across every tool**.
 
 ---
+
+## Tool demos
+
+One page per tool, captured from a real run of the shipped stable build, in the stable repository: [Tool demos](https://github.com/virtualiqai/viq-network-toolset/tree/main/demos) — [Internet Diagnostic](https://github.com/virtualiqai/viq-network-toolset/blob/main/demos/internet-diagnostic.md), [NetDiag Report](https://github.com/virtualiqai/viq-network-toolset/blob/main/demos/netdiag-report.md), [MTR / Traceroute](https://github.com/virtualiqai/viq-network-toolset/blob/main/demos/mtr-traceroute.md), [SSL / TLS Inspector](https://github.com/virtualiqai/viq-network-toolset/blob/main/demos/ssl-tls-inspector.md), [WLAN Investigator](https://github.com/virtualiqai/viq-network-toolset/blob/main/demos/wlan-investigator.md), [TCP Ping](https://github.com/virtualiqai/viq-network-toolset/blob/main/demos/tcp-ping.md), [SSH Terminal](https://github.com/virtualiqai/viq-network-toolset/blob/main/demos/ssh-terminal.md). The catalog rows below link to them as well.
 
 ## Tool Catalog
 
@@ -80,29 +85,30 @@ The beta channel ships **39 tools** across six categories. The WLAN Investigator
 
 | Tool | Description | Method |
 |---|-------|----|
-| **NetDiag Report** | Streaming combined DNS + ping + MTR + port scan + MSS probe + SSL diagnostics for a single host | SSE (Server-Sent Events); mix of ICMP, TCP, DNS, TLS |
+| **NetDiag Report** | Streaming combined DNS + ping + MTR + port scan + MSS probe + SSL diagnostics for a single host — [demo](https://github.com/virtualiqai/viq-network-toolset/blob/main/demos/netdiag-report.md) | SSE (Server-Sent Events); mix of ICMP, TCP, DNS, TLS |
 | **Ping** | Single-host ICMP ping | System ping |
-| **MTR / Traceroute** | Hop-by-hop latency and loss | System mtr or traceroute |
-| **TCP Ping** | Handshake-based reachability and latency to a host:port, useful where ICMP is filtered | TCP connect |
+| **MTR / Traceroute** | Hop-by-hop latency and loss — [demo](https://github.com/virtualiqai/viq-network-toolset/blob/main/demos/mtr-traceroute.md) | System mtr or traceroute |
+| **TCP Ping** | Handshake-based reachability and latency to a host:port, useful where ICMP is filtered — [demo](https://github.com/virtualiqai/viq-network-toolset/blob/main/demos/tcp-ping.md) | TCP connect |
 | **Port Scanner** | Native per-host TCP/UDP port check with banner grab (capped at 100 ports). Replaces the former **Nmap Scanner** - no external `nmap` binary is required | Native TCP connect / UDP probe |
 | **Switch Health** | Runs a strict allowlist of `show` commands over SSH and parses CPU, temperature, fans, PSU, uptime, and interface health; auto-detects IOS-XE vs NX-OS and runs the correct environment command. Hard-blocked from `configure`, `reload`, `clear`, `copy`, `write`, `erase` | SSH TCP/22 (read-only) |
 | **Config Audit** | Static audit of a device configuration (Cisco / Arista / NX-OS style) for weak SNMP communities, telnet, default credentials, and missing logging; side-by-side startup-vs-running diff with change counts; optional read-only configuration download over SSH | SSH TCP/22 (read) + local analysis |
+| **WLAN Investigator** | One-button, client-to-WAN Wi-Fi investigation from this machine: reads the link (SSID, BSSID, RSSI, SNR, channel, security), scans nearby networks, checks DHCP, DNS, gateway, WAN and captive portal, and issues a nine-layer verdict with ranked root causes and a ticket-ready report; optional RADIUS probe, AP-uplink (switch SNMP) and controller evidence deepen the infrastructure layers — [demo](https://github.com/virtualiqai/viq-network-toolset/blob/main/demos/wlan-investigator.md) | Local Wi-Fi API; DHCP, DNS, ICMP, TCP and HTTP probes; optional SNMP and RADIUS |
 | **Connection Report** | End-to-end local connectivity report - adapter, gateway, DNS, internet path, and cloud-application reachability with a pass/fail verdict | Local checks + active probes |
 
 ### Security
 
 | Tool | Description | Method |
 |---|-------|----|
-| **SSL / TLS Inspector** | Certificate chain, expiry, ciphers, SANs, and negotiated protocol versions | TLS handshake |
+| **SSL / TLS Inspector** | Certificate issuer, expiry and days remaining, the negotiated TLS version and cipher, Subject Alternative Names, and a grade for the handshake — [demo](https://github.com/virtualiqai/viq-network-toolset/blob/main/demos/ssl-tls-inspector.md) | TLS handshake |
 | **Ncat / Netcat** | Reference and command-builder UI | Informational only |
-| **SSH Terminal** | In-browser xterm.js terminal to a target device (password, RSA, Ed25519, ECDSA, or DSS key, with a system-`ssh` fallback) | SSH TCP/22 |
+| **SSH Terminal** | In-browser xterm.js terminal to a target device (password, RSA, Ed25519, ECDSA, or DSS key, with a system-`ssh` fallback) — [demo](https://github.com/virtualiqai/viq-network-toolset/blob/main/demos/ssh-terminal.md) | SSH TCP/22 |
 | **SCP / SFTP Server** | Runs a local SFTP/SCP server so devices can push configurations to the workstation; native folder picker on both macOS (Finder) and Windows (Explorer) for the root directory | SSH TCP (configurable port) |
 
 ### Performance
 
 | Tool | Description | Method |
 |---|-------|----|
-| **Internet Diagnostic (Speed Test)** | Streaming WAN speed test - multi-CDN download/upload throughput, idle vs loaded latency, DNS/path/MTU probes, a gauge cluster, per-workload verdicts (VoIP, video calls, gaming, VDI, streaming, VPN, and more), and a Wi-Fi-vs-internet root-cause verdict | SSE; HTTPS to public speed-test endpoints |
+| **Internet Diagnostic (Speed Test)** | Streaming WAN speed test - multi-CDN download/upload throughput, idle vs loaded latency, DNS/path/MTU probes, a gauge cluster, per-workload verdicts (VoIP, video calls, gaming, VDI, streaming, VPN, and more), and a Wi-Fi-vs-internet root-cause verdict — [demo](https://github.com/virtualiqai/viq-network-toolset/blob/main/demos/internet-diagnostic.md) | SSE; HTTPS to public speed-test endpoints |
 | **SockPerf** | TCP and UDP latency and throughput probe with built-in listener mode | TCP/UDP socket |
 | **Bandwidth Calculator** | Throughput, transfer-time, and link-utilization math | Offline |
 | **MSS Calculator** | Path MTU/MSS dual-probe (jumbo 9000 and standard 1500, DF-bit) - classifies jumbo, standard, tunnel-overhead, or fragmented paths | ICMP DF-bit probe |
