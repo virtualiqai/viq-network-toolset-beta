@@ -1,12 +1,18 @@
 # Changelog — Beta Channel
 
-All notable changes to **VIQ Engineer Toolset — Beta channel** are documented here. Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and adheres to [Semantic Versioning](https://semver.org/) with the pre-release identifier extension (e.g., `2.6.21-beta.1`).
+All notable changes to **VIQ Network Toolset — Beta channel** are documented here. Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and adheres to [Semantic Versioning](https://semver.org/) with the pre-release identifier extension (e.g., `2.6.21-beta.1`).
 
-Beta builds are produced from the `beta` branch of the private source repository by the same CI pipeline that produces stable builds. When a beta has been validated, it is promoted to the stable channel by dropping the `-beta.N` suffix and tagging on `main`; promoted versions appear under their clean number in the [stable channel changelog](https://github.com/virtualiqai/viq_eng_toolset/blob/main/CHANGELOG.md).
+Beta builds are produced from the `beta` branch of the private source repository by the same CI pipeline that produces stable builds. When a beta has been validated, it is promoted to the stable channel by dropping the `-beta.N` suffix and tagging on `main`; promoted versions appear under their clean number in the [stable channel changelog](https://github.com/virtualiqai/viq-network-toolset/blob/main/CHANGELOG.md).
 
 The stable-channel history below is mirrored here so testers have full context about what each beta is built on top of. Beta-specific entries (e.g., `[2.6.21-beta.1]`) are added above the stable history as betas ship.
 
 ---
+
+## 3.1.0-beta.1 — 2026-08-27
+
+- Windows installer removes any earlier installation before installing.
+- Release channels and download file names tidied; the built-in update check continues to work for existing installs.
+- No tool behaviour changes since 3.0.3-beta.2.
 
 ## [3.0.3] - 2026-08-26 — promoted to stable
 
@@ -14,9 +20,9 @@ The stable-channel history below is mirrored here so testers have full context a
 together with two fixes made during promotion: Config Audit PDF exports now
 redact device secrets, and MTR reports partial per-hop loss on macOS/Linux
 (it was already correct on Windows). Full notes live in the
-[stable channel changelog](https://github.com/virtualiqai/viq_eng_toolset/blob/main/CHANGELOG.md).
+[stable channel changelog](https://github.com/virtualiqai/viq-network-toolset/blob/main/CHANGELOG.md).
 
-> **Upgrading on Windows:** close VIQ Engineer Toolset before running the
+> **Upgrading on Windows:** close VIQ Network Toolset before running the
 > installer — the application locks its own program file while running, and the
 > installer will stop with "Error opening file for writing" if it is still open.
 
@@ -201,7 +207,7 @@ The Port Mapper now produces a usable port → MAC → IP → hostname result on
 
 - **Nexus VLAN discovery now unions three sources** (SVI interface names ∪ `vmVlan` per-port access VLAN ∪ `vtpVlanState`). The pre-fix logic walked only SVI names, so a pure-L2 access Nexus without any SVIs returned an empty VLAN list and Strategy E (community-context FDB polling) was silently skipped. The MAC table came back empty on those switches even though the device was fully reachable.
 - **Layer 3 ARP correlation** continues to walk the legacy `ipNetToMediaTable`, with automatic fallback to RFC 4293 `ipNetToPhysicalTable` on devices that only expose the newer table. The MAC normalization between the L2 FDB and the L3 ARP table is now uniform across both sources, so case and format differences can never cause a false-negative match.
-- **Structured `snmp:` log lines** are emitted across the full scan path (entry parameters, L2 device platform, FDB strategy selected, L3 device probe + `sysDescr`, ARP walk row counts, RFC 4293 fallback if used, ARP/MAC correlation result, and a sample mismatch warning when zero MACs overlap). The log file at `~/Library/Application Support/VIQ Engineer Toolset/netops.log` (macOS) or `%LOCALAPPDATA%\VIQ Engineer Toolset\netops.log` (Windows) now contains enough evidence to diagnose any unsuccessful scan without rerunning it.
+- **Structured `snmp:` log lines** are emitted across the full scan path (entry parameters, L2 device platform, FDB strategy selected, L3 device probe + `sysDescr`, ARP walk row counts, RFC 4293 fallback if used, ARP/MAC correlation result, and a sample mismatch warning when zero MACs overlap). The log file at `~/Library/Application Support/VIQ Network Toolset/netops.log` (macOS) or `%LOCALAPPDATA%\VIQ Network Toolset\netops.log` (Windows) now contains enough evidence to diagnose any unsuccessful scan without rerunning it.
 - **Uplink ports no longer report dozens of "endpoints."** A switch's FDB legitimately learns the *chassis MAC of the upstream device* on its uplink port; when the L3 ARP table maps that MAC to forty SVI / management IPs (perfectly normal for a distribution switch terminating many subnets), the previous build attached all forty IPs to the uplink row, suggesting the uplink had forty hosts behind it. The per-MAC `ip_addresses` list is still populated (so the MAC tab continues to show the correlated identities) but the per-port aggregation and the `endpoints` array now skip ports whose role is `uplink`. The frontend Port Inventory export honors the same rule.
 
 ### 🩺 Diagnostic panel — every scan now tells you what worked and what to fix
@@ -273,13 +279,13 @@ The entries below mirror the stable channel's changelog and are included here fo
 
 ### 🪵 `netops.log` Now Lands Where Users Can Find It
 
-The previous build's diagnostic logging never produced a file on Windows because the rotating file handler was writing into `%PROGRAMFILES%\VIQ Engineer Toolset\assets\` — an admin-only path. Python's `RotatingFileHandler` silently swallows `PermissionError` on first open, so the log appeared to be working with no on-disk evidence to debug from.
+The previous build's diagnostic logging never produced a file on Windows because the rotating file handler was writing into `%PROGRAMFILES%\VIQ Network Toolset\assets\` — an admin-only path. Python's `RotatingFileHandler` silently swallows `PermissionError` on first open, so the log appeared to be working with no on-disk evidence to debug from.
 
 v2.6.19 routes the log (and future runtime state) through a per-platform user-writable data directory:
 
-- **Windows:** `%LOCALAPPDATA%\VIQ Engineer Toolset\netops.log`
-- **macOS:** `~/Library/Application Support/VIQ Engineer Toolset/netops.log`
-- **Linux:** `$XDG_DATA_HOME/viq-engineer-toolset/netops.log` (default `~/.local/share/…`)
+- **Windows:** `%LOCALAPPDATA%\VIQ Network Toolset\netops.log`
+- **macOS:** `~/Library/Application Support/VIQ Network Toolset/netops.log`
+- **Linux:** `$XDG_DATA_HOME/viq-network-toolset/netops.log` (default `~/.local/share/…`)
 - Override available via the `NETOPS_DATA_DIR` environment variable.
 - Falls back to the original install-bundle path if the user dir can't be created.
 
@@ -305,7 +311,7 @@ This build adds:
 - Explicit `log.exception()` wrappers around the SFTP server's `open()` and the tracked-transfer file's `seek` / `read` / `write` / `close` so a full traceback (with `local_path`, `flags`, `pflags`, `parent_writable`, `bytes_so_far`) lands in `netops.log` regardless of which step throws.
 - A new explicit `seek()` method on the tracked file wrapper — previously `seek` slipped through `__getattr__`, hiding any seek-stage failure from the existing error-marking path.
 
-No behavior changes for users whose SCP/SFTP already works. After reproducing the Cisco error on Windows, send the most recent `netops.log` from `%PROGRAMFILES%\VIQ Engineer Toolset\netops.log` for diagnosis.
+No behavior changes for users whose SCP/SFTP already works. After reproducing the Cisco error on Windows, send the most recent `netops.log` from `%PROGRAMFILES%\VIQ Network Toolset\netops.log` for diagnosis.
 
 ---
 
@@ -374,7 +380,7 @@ This release consolidates ~15 iterative beta builds (v2.6.2 through v2.6.16) int
 
 ### 🔧 CI / build pipeline
 
-- **Workflow refactored to upload directly to `viq-releases`** — no intermediate GitHub Actions artifact storage. The free-tier 500 MB artifact quota was exhausted during the v2.6.x rapid-iteration cycle, blocking releases until the cache recalculated. The new pipeline has four jobs (`pre-release` → `build-macos` / `build-windows` in parallel → `finalize`) and is immune to the quota cliff.
+- **Workflow refactored to upload directly to `viq-network-toolset`** — no intermediate GitHub Actions artifact storage. The free-tier 500 MB artifact quota was exhausted during the v2.6.x rapid-iteration cycle, blocking releases until the cache recalculated. The new pipeline has four jobs (`pre-release` → `build-macos` / `build-windows` in parallel → `finalize`) and is immune to the quota cliff.
 - **SHA-256 checksums** are now generated in the `finalize` step from the actual uploaded artifacts (not intermediates), so they always match what users actually download.
 
 ### 🐛 Bug fixes / polish
@@ -419,7 +425,7 @@ This release introduces published download integrity verification.
 
 - **SHA-256 checksums published with every release.** A `SHA256SUMS.txt` file is now attached to each GitHub release alongside the DMG and Setup.exe. Users can verify the integrity of downloaded artifacts before installation:
   - macOS / Linux: `shasum -a 256 -c SHA256SUMS.txt`
-  - Windows: `Get-FileHash -Algorithm SHA256 VIQ-Engineer-Toolset-Setup.exe`
+  - Windows: `Get-FileHash -Algorithm SHA256 VIQ-Network-Toolset-Setup.exe`
 - All other functionality unchanged from v2.4.2.
 
 ---
@@ -428,7 +434,7 @@ This release introduces published download integrity verification.
 
 ### Initial Public Release
 
-This is the first publicly available release of Virtual IQ AI NetOps Toolset. The application has been under continuous development against production enterprise infrastructure prior to this public availability. Version 2.4.2 reflects the application's internal release history; the product debuts publicly at this version.
+This is the first publicly available release of VIQ Network Toolset. The application has been under continuous development against production enterprise infrastructure prior to this public availability. Version 2.4.2 reflects the application's internal release history; the product debuts publicly at this version.
 
 ### 🚀 Application Platform
 
@@ -526,7 +532,7 @@ This is the first publicly available release of Virtual IQ AI NetOps Toolset. Th
 
 Tracked, in no particular order:
 
-- **NetAI Platform** *(Q4 2026)* — Flagship AI-augmented network operations platform from Virtual IQ AI. Predictive incident detection, autonomous Level-1 alert triage, and natural-language network querying. Currently in active development.
+- **AI-augmented network operations platform** — from Virtual IQ AI. Predictive incident detection, autonomous Level-1 alert triage, and natural-language network querying. Currently in active development.
 - **Signed Windows installer** (Authenticode)
 - **Notarized macOS application** (Apple Developer ID + notarization)
 - **Encrypted credential vault** for frequently accessed targets
