@@ -72,7 +72,7 @@ The beta channel ships **39 tools** across six categories. The WLAN Investigator
 
 | Tool | Description | Method |
 |---|-------|----|
-| **WLAN Investigator** | Guided, evidence-led Wi-Fi problem investigation - collects signal, roaming, DHCP, DNS, gateway, RADIUS, captive-portal, and cloud-application reachability, then renders a plain-language verdict with the supporting evidence trail | Native OS Wi-Fi APIs + active probes |
+| **WLAN Investigator** | Guided, evidence-led Wi-Fi problem investigation - collects signal, roaming, DHCP, DNS, gateway, RADIUS, captive-portal, and cloud-application reachability, then renders a plain-language verdict with the supporting evidence trail — [demo](https://github.com/virtualiqai/viq-network-toolset/blob/main/demos/wlan-investigator.md) | Native OS Wi-Fi APIs + active probes |
 | **Wi-Fi Snapshot** | Point-in-time capture of the current association: SSID / BSSID, band, channel and width, RSSI, noise, PHY rate, and security | Native OS Wi-Fi query |
 | **Roam Logger** | Continuously logs roaming events, BSSID transitions, and RSSI over time to characterize sticky-client and roaming behavior | Native OS Wi-Fi polling |
 | **DHCP Probe** | Verifies DHCP reachability and inspects offer contents on the local segment | DHCP (UDP/67-68) |
@@ -92,7 +92,6 @@ The beta channel ships **39 tools** across six categories. The WLAN Investigator
 | **Port Scanner** | Native per-host TCP/UDP port check with banner grab (capped at 100 ports). Replaces the former **Nmap Scanner** - no external `nmap` binary is required | Native TCP connect / UDP probe |
 | **Switch Health** | Runs a strict allowlist of `show` commands over SSH and parses CPU, temperature, fans, PSU, uptime, and interface health; auto-detects IOS-XE vs NX-OS and runs the correct environment command. Hard-blocked from `configure`, `reload`, `clear`, `copy`, `write`, `erase` | SSH TCP/22 (read-only) |
 | **Config Audit** | Static audit of a device configuration (Cisco / Arista / NX-OS style) for weak SNMP communities, telnet, default credentials, and missing logging; side-by-side startup-vs-running diff with change counts; optional read-only configuration download over SSH | SSH TCP/22 (read) + local analysis |
-| **WLAN Investigator** | One-button, client-to-WAN Wi-Fi investigation from this machine: reads the link (SSID, BSSID, RSSI, SNR, channel, security), scans nearby networks, checks DHCP, DNS, gateway, WAN and captive portal, and issues a nine-layer verdict with ranked root causes and a ticket-ready report; optional RADIUS probe, AP-uplink (switch SNMP) and controller evidence deepen the infrastructure layers — [demo](https://github.com/virtualiqai/viq-network-toolset/blob/main/demos/wlan-investigator.md) | Local Wi-Fi API; DHCP, DNS, ICMP, TCP and HTTP probes; optional SNMP and RADIUS |
 | **Connection Report** | End-to-end local connectivity report - adapter, gateway, DNS, internet path, and cloud-application reachability with a pass/fail verdict | Local checks + active probes |
 
 ### Security
