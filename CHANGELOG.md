@@ -8,6 +8,39 @@ The stable-channel history below is mirrored here so testers have full context a
 
 ---
 
+## 3.1.2-beta.1 — 2026-08-28
+
+**Security & privacy disclosures corrected**
+- The outbound-connections list now includes the Internet Diagnostic speed-test / CDN endpoints (two of which use plain HTTP); the earlier "does not contact any server other than those listed" wording is removed.
+- Code-signing status is stated accurately (macOS builds are ad-hoc signed, not notarized; verify by SHA-256).
+- The web interface is described as loopback-only and the optional SCP/SFTP server as a separate, operator-started inbound listener.
+- The bundled third-party inventory now lists the versions actually shipped.
+
+**SCP/SFTP server**
+- The receive listener now binds your active Wi-Fi/Ethernet interfaces by default instead of all interfaces (0.0.0.0). "All IP Addresses" and "Custom" remain selectable.
+
+**SSH Terminal**
+- New: Terminal Settings shows the folder that holds your saved sessions (`ssh-store.json`) and `known_hosts`, with a copy button, so you can open it and edit those files directly.
+
+**Report & verdict consistency**
+- NetDiag PDF and the standalone MTR export now judge the path on *destination* loss (matching the on-screen card), so transit routers that rate-limit ICMP no longer flip a clean path to FAIL/red — while a destination that never answers (a black-hole) is correctly reported as unreachable, not a clean pass.
+- MTR silent hops show as NO REPLY in the live table (matching the export), not 100% loss.
+- The SSL "Certificate Chain" card is relabelled "Subject Alternative Names" (it lists the certificate's SANs).
+- The Internet Diagnostic phase counter shows the real number of phases.
+- The MTR Packets/Hop control notes that the live trace samples up to ~3 per hop on macOS/Windows; the report states the number actually collected.
+
+**Config Audit**
+- Fewer false "drift" alerts: the internal `ntp clock-period` counter is ignored, and PKI certificate sub-blocks are compared order-independently.
+
+**Windows installer**
+- The installer now closes a running instance before updating, so upgrading over a running app succeeds.
+
+**Under the hood**
+- Dependency floor raised (asyncssh ≥ 2.24) so local builds match the release pipeline.
+- Legal/notice housekeeping (import sources use a neutral glyph and their names nominatively; minor numbering and wording fixes).
+
+_Built on stable **v3.1.1**._
+
 ## 3.1.0-beta.1 — 2026-08-27
 
 - Windows installer removes any earlier installation before installing.
