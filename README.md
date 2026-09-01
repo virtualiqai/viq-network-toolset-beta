@@ -13,7 +13,7 @@
 
 <br/>
 
-[![Version](https://img.shields.io/badge/version-3.1.0--beta.1-F59E0B?style=flat-square)](https://github.com/virtualiqai/viq-network-toolset-beta/releases)
+[![Version](https://img.shields.io/badge/version-3.1.2--beta.2-F59E0B?style=flat-square)](https://github.com/virtualiqai/viq-network-toolset-beta/releases)
 [![Channel](https://img.shields.io/badge/channel-BETA-F59E0B?style=flat-square)](https://github.com/virtualiqai/viq-network-toolset-beta/releases)
 [![Stable](https://img.shields.io/badge/stable-virtualiqai%2Fviq--network--toolset-2563EB?style=flat-square)](https://github.com/virtualiqai/viq-network-toolset)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS-lightgrey?style=flat-square)](https://github.com/virtualiqai/viq-network-toolset-beta/releases)
@@ -134,7 +134,7 @@ The beta channel ships **39 tools** across six categories. The WLAN Investigator
 ## Why This Toolset
 
 - **Comparable scope to commercial engineer toolsets** - discovery, WLAN, troubleshooting, security, performance, and reference tools that traditionally require multiple separate utilities or a $1,500+ commercial license, consolidated into one application.
-- **Runs entirely local** - no cloud account, no telemetry, no analytics. Outbound connections are limited to a single GitHub version-check at startup plus a small number of opt-in lookups (IP geolocation, ASN/RDAP) that only fire when the user clicks the corresponding tool.
+- **Runs entirely local** - no cloud account, no telemetry, no analytics. Outbound connections are limited to a single GitHub version-check at startup plus a small number of opt-in lookups (IP geolocation, ASN/RDAP) that only fire when the user clicks the corresponding tool, and the Internet Diagnostic speed test, which contacts the endpoints listed in SECURITY.md when you run it.
 - **Read-only safety by default** - the toolset will not modify a device configuration. Switch Health enforces this in code with a hard allowlist.
 - **Real engineering** - built and refined against production enterprise infrastructure, not simulated labs.
 - **One installer, no dependencies** - no Python install, no Docker, no Node, no npm. Download, install, launch.

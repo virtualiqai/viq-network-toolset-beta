@@ -8,6 +8,36 @@ The stable-channel history below is mirrored here so testers have full context a
 
 ---
 
+## 3.1.2-beta.2 — 2026-09-01
+
+**Internet Diagnostic**
+- The download needle moves from the first second: the download phase starts at t=0 and the strategy race feeds the dial with the aggregate of all live probe streams (it previously idled until step 5). The idle-latency baseline moved after the throughput phases — still measured on a quiet link, now with its full sample set.
+
+**MTR / Traceroute**
+- The Packets/Hop selection is honoured up to the platform cap (up to 10 per hop on macOS/Linux; Windows tracert is fixed at 3); the SNT column and the report state the probes actually sent.
+- A hop that answers nothing shows "No reply" with dash latencies in the app table — silence is not loss.
+
+**Switch Health**
+- Environment parsing is vendor-generic: Cisco IOS/IOS-XE/NX-OS plus new Arista EOS, Juniper Junos and Huawei VRP command presets.
+- Fan or temperature sections the device did not report now deduct from the health score instead of silently scoring 100, and the last reload reason is surfaced.
+
+**SSL / TLS Inspector**
+- The Certificate Chain card now shows the chain the server actually presented — role, subject and days left for each link — alongside the names the certificate covers.
+
+**WLAN Investigator**
+- Report redaction now masks the SSID and all non-resolver IP addresses, in addition to MAC addresses and usernames.
+
+**SSH Terminal**
+- A device-side `exit` (or any remote close) now ends the session tab immediately; previously the tab only noticed on your next keystroke.
+
+**Licensing**
+- Activation is keyed to a stable hardware identifier, so changing or removing a network adapter no longer invalidates a license; existing activations keep working unchanged.
+
+**Under the hood**
+- The test gate's three known-flaky tests were root-caused and stabilized, and platform-dependent tests force the platform flag both ways so the Windows CI gate stays meaningful.
+
+_Built on stable **v3.1.1**._
+
 ## 3.1.2-beta.1 — 2026-08-28
 
 **Security & privacy disclosures corrected**
