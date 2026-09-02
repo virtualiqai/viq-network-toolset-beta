@@ -8,6 +8,20 @@ The stable-channel history below is mirrored here so testers have full context a
 
 ---
 
+## 3.1.2-beta.3 — 2026-09-01
+
+**SSH Terminal**
+- Device-driven login: with the username/password left blank, the terminal shows the switch's login banner and lets the device prompt for Username/Password in the terminal, so banner/keyboard-interactive gear (TACACS+/RADIUS-fronted Catalysts) connects like a normal SSH client. Typed passwords are never echoed or logged; the credentialed path now also shows the pre-auth banner; connect failures are logged.
+
+**Config Audit**
+- Fails closed when a device returns a CLI error instead of a configuration (e.g. `% Permission denied for the role`): the audit reports the failure with the device's own words rather than grading the error "In Sync".
+
+**Switch Health**
+- Catalyst 4500: environment is read via `show environment` when the chassis rejects `show environment all`; the 4500 temperature/power tables parse, supplies are counted correctly, and the software version is read from the classic IOS / IOS-XE banner (e.g. `03.08.04.E`) instead of "Unknown".
+
+**Exports**
+- Every tabular tool gains a branded `↓ CSV` beside its PDF (MTR/Traceroute, Switch Health, DNS, TCP Ping, WLAN nearby-APs, Subnet Calculator, Port Scanner, MAC Lookup, plus Ping Sweep and Roam Logger). Cells pass the spreadsheet-formula-injection guard; the WLAN scan CSV masks BSSIDs to the vendor prefix. MAC Lookup's XLSX adds a "Report Info" sheet.
+
 ## 3.1.2-beta.2 — 2026-09-01
 
 **Internet Diagnostic**

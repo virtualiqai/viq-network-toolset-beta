@@ -13,7 +13,7 @@
 
 <br/>
 
-[![Version](https://img.shields.io/badge/version-3.1.2--beta.2-F59E0B?style=flat-square)](https://github.com/virtualiqai/viq-network-toolset-beta/releases)
+[![Version](https://img.shields.io/badge/version-3.1.2--beta.3-F59E0B?style=flat-square)](https://github.com/virtualiqai/viq-network-toolset-beta/releases)
 [![Channel](https://img.shields.io/badge/channel-BETA-F59E0B?style=flat-square)](https://github.com/virtualiqai/viq-network-toolset-beta/releases)
 [![Stable](https://img.shields.io/badge/stable-virtualiqai%2Fviq--network--toolset-2563EB?style=flat-square)](https://github.com/virtualiqai/viq-network-toolset)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS-lightgrey?style=flat-square)](https://github.com/virtualiqai/viq-network-toolset-beta/releases)
