@@ -47,6 +47,8 @@ It is distributed as a single installer for Windows and macOS. Once installed, i
 
 **What's new in 3.0 (beta):** a full **WLAN Investigator suite** (Wi-Fi diagnostics, roaming, DHCP, RADIUS, AP uplink, and RF reference), the native **Port Scanner** (which replaces the former Nmap-dependent scanner - no external `nmap` binary required), and **standardized, verdict-led PDF reporting across every tool**.
 
+**New in 3.1.2-beta.3:** a **branded CSV export** on every tabular tool (MTR/Traceroute, Switch Health, DNS, TCP Ping, WLAN nearby-APs, Subnet Calculator, Port Scanner, MAC Lookup, Ping Sweep, Roam Logger) alongside the existing PDF; device-driven **SSH terminal login** for banner/prompt-based gear (leave the credentials blank and the switch drives its own Username/Password prompts, the way TACACS+/RADIUS-fronted Catalysts expect); a Config Audit that fails closed on a device permission error instead of reporting "in sync"; and Catalyst 4500 environment/health parsing.
+
 ---
 
 ## Tool demos
