@@ -1,9 +1,9 @@
 {
   "channel": "beta",
-  "version": "3.1.2-beta.2",
+  "version": "3.1.2-beta.3",
   "notes": "See release notes on GitHub",
   "downloads": {
-    "macos": "https://github.com/virtualiqai/viq-network-toolset-beta/releases/download/v3.1.2-beta.2/VIQ-Network-Toolset.dmg",
-    "windows": "https://github.com/virtualiqai/viq-network-toolset-beta/releases/download/v3.1.2-beta.2/VIQ-Network-Toolset-Setup.exe"
+    "macos": "https://github.com/virtualiqai/viq-network-toolset-beta/releases/download/v3.1.2-beta.3/VIQ-Network-Toolset.dmg",
+    "windows": "https://github.com/virtualiqai/viq-network-toolset-beta/releases/download/v3.1.2-beta.3/VIQ-Network-Toolset-Setup.exe"
   }
 }
